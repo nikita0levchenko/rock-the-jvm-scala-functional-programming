@@ -61,8 +61,12 @@ object ScalaPlayground extends App {
   val socialNetwork: SocialNetwork = SocialNetwork(
     Map(
       "Nikita L." -> Set("Andrew T.", "Pavel G.", "Oleg B.", "Andrew K.", "Ilya D."),
+      "Oleg B." -> Set("Nikita L.", "Andrew K.", "Andrew T.", "Pavel G."),
       "Andrew T." -> Set("Nikita L.", "Pavel G.", "Oleg B."),
+      "Pavel G." -> Set("Nikita L.", "Andrew T.", "Oleg B."),
       "Andrew K." -> Set("Nikita L.", "Oleg B.", "Ilya D.", "Anton M."),
+      "Ilya D." -> Set("Nikita L.", "Andrew K."),
+      "Anton M." -> Set("Andrew K."),
       "Noname" -> Set(),
       "Nameno" -> Set()
     )

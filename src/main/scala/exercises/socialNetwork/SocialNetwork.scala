@@ -1,5 +1,7 @@
 package exercises.socialNetwork
 
+import scala.annotation.tailrec
+
 case class SocialNetwork(users: Map[String, Set[String]]) extends SocialNetworkBase {
 
   override def add(person: String): SocialNetworkBase =
@@ -35,12 +37,18 @@ case class SocialNetwork(users: Map[String, Set[String]]) extends SocialNetworkB
 
   override def noFriends: Int  = users.count(_._2.isEmpty)
 
-  //DFS algorithm need to implement
-  override def isASocialConnection(p1: String, p2: String): Boolean = users.get(p1) match {
-    case Some(p1List) => users.get(p2) match {
-      case Some(p2List) => if(p1List.contains(p2) && p2List.contains(p1)) true else users.values.exists(list => list.contains(p1) && list.contains(p2))
-      case None         => if(users(p1).contains(p2)) true else users.values.exists(list => list.contains(p1) && list.contains(p2))
+  //BFS algorithm implemented
+  override def isASocialConnection(p1: String, p2: String): Boolean = {
+    @tailrec
+    def bfs(target: String, consideredPeople: Set[String], discoveredPeople: Set[String]): Boolean = {
+      if(discoveredPeople.isEmpty) false
+      else {
+        val person: String = discoveredPeople.head
+        if(person == target) true
+        else if(consideredPeople.contains(person)) bfs(target, consideredPeople, discoveredPeople.tail)
+        else bfs(target, consideredPeople + person, discoveredPeople ++ users(person))
+      }
     }
-    case None         => throw PersonNotFindException(s"Person $p1 not found")
+    bfs(p2, Set(), users(p1) + p1)
   }
 }
